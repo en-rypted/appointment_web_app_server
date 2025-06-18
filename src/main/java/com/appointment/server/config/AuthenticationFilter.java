@@ -7,6 +7,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +21,9 @@ import java.io.IOException;
 
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {
+
+    private final Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
+
     @Autowired
     private JwtService jwtService;
     @Autowired
@@ -27,12 +32,12 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwtToken = request.getHeader("Authorization");
         String username = null;
-        if(jwtToken != null || jwtToken.startsWith("Bearer")){
+        if(jwtToken != null && jwtToken.startsWith("Bearer")){
             jwtToken = jwtToken.substring(7);
             try {
                 username = jwtService.getUsername(jwtToken);
             }catch (Exception e){
-                e.printStackTrace();
+                logger.error("Error : AuthenticationFilter -> {}", e.getMessage());
             }
         }
 
