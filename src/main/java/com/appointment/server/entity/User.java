@@ -1,6 +1,7 @@
 package com.appointment.server.entity;
 
 import lombok.*;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,7 +10,7 @@ import java.util.List;
 @Document(collection = "users")
 public class User {
     @Id
-    private String id;
+    private ObjectId id;
     private String name;
     private String username;
     private String password;
@@ -18,11 +19,11 @@ public class User {
     public User() {
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
