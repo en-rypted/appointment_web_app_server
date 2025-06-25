@@ -2,6 +2,7 @@ package com.appointment.server.entity;
 
 
 import jakarta.validation.constraints.*;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,7 +13,8 @@ import java.util.Date;
 @Document(collection = "doctor")
 public class Doctor {
     @Id
-    private String id;
+    private ObjectId id;
+    private User user;
     @NotBlank(message = "Name required")
     private String name;
     @NotNull(message = "Birthdate is required")
@@ -35,11 +37,19 @@ public class Doctor {
 
   }
 
-    public String getId() {
+    public  User getUser() {
+        return user;
+    }
+
+    public void setUser( User user) {
+        this.user = user;
+    }
+
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
